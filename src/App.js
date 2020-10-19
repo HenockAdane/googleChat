@@ -34,34 +34,19 @@ function App() {
 
   }, [])
 
-  let [lit] = useCollectionData(dataBase.collection("messages").orderBy("dateCreated"))
+  let [lit] = useCollectionData(dataBase.collection("messages"))
+  
+  console.log(lit)
  
-
-  useEffect(()=> {
-
-    dataBase.collection("messages").get().then(res => {
-     if (res.docs){
-      setState(ps => ({...ps, 
-        one: res.docs.map(a => a.data())
-      
-      }))
-
-     }
-
-      
-
-      
-    })
-
-
-  }, [lit])
  
 
   console.log(lit)
 
   let messages = () => {
-    if (state.user){
-      let sortedArr = state.one.sort((a,b) => b.dateCreated - a.dateCreated)
+
+    console.log(lit)
+    if (state.user && lit){
+      let sortedArr = lit.sort((a,b) => b.dateCreated - a.dateCreated)
       return sortedArr.map(a => a.id === state.user.uid ? (<li className="sent"><p>{a.message}</p><img src className="img" src={a.accountImg}/></li>) : (<li className="received"><img src className="img" src={a.accountImg}/><p>{a.message}</p></li>))
     }
   }
