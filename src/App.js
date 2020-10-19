@@ -123,3 +123,7 @@ const loggedOutPage = (<div>
 }
 
 export default App;
+
+/*
+{document=**} //every single document inside the database
+ */
