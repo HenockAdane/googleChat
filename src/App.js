@@ -34,7 +34,7 @@ function App() {
 
   }, [])
 
-  let lit = useCollectionData(dataBase.collection("messages"))[0]
+  let [lit] = useCollectionData(dataBase.collection("messages").orderBy("dateCreated"))
  
 
   useEffect(()=> {
@@ -61,7 +61,8 @@ function App() {
 
   let messages = () => {
     if (state.user){
-      return state.one.map(a => a.id === state.user.uid ? (<li className="sent"><p>{a.message}</p><img src className="img" src={a.accountImg}/></li>) : (<li className="received"><img src className="img" src={a.accountImg}/><p>{a.message}</p></li>))
+      let sortedArr = state.one.sort((a,b) => b.dateCreated - a.dateCreated)
+      return sortedArr.map(a => a.id === state.user.uid ? (<li className="sent"><p>{a.message}</p><img src className="img" src={a.accountImg}/></li>) : (<li className="received"><img src className="img" src={a.accountImg}/><p>{a.message}</p></li>))
     }
   }
 
