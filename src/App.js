@@ -3,12 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 import firebase, { database } from "firebase"
 import { auth, googleLogin, signOut, dataBase } from "./JScomponents/firebase"
-import {useCollectionData} from "react-firebase-hooks/firestore"
+import ChatRoom from './JScomponents/chatRoom';
 
 
 function App() {
 
-  const [state, setState] = useState(()=> ({user: null, message: "", one: []}))
+  const [state, setState] = useState(()=> ({user: null, message: "", messages: []}))
 
   // auth.onAuthStateChanged(user => {
   //   setState(ps => ({...ps, user: user}))
@@ -34,61 +34,28 @@ function App() {
 
   }, [])
 
-  let [lit] = useCollectionData(dataBase.collection("messages"))
   
-  console.log(lit)
- 
- 
-
-  console.log(lit)
-
-  let messages = () => {
-
-    console.log(lit)
-    if (state.user && lit){
-      let sortedArr = lit.sort((a,b) => b.dateCreated - a.dateCreated)
-      return sortedArr.map(a => a.id === state.user.uid ? (<li className="sent"><p>{a.message}</p><img src className="img" src={a.accountImg}/></li>) : (<li className="received"><img src className="img" src={a.accountImg}/><p>{a.message}</p></li>))
-    }
-  }
 
 
 
-  const inputChange = (e) => {
-    const message = e.target.value;
-    setState(ps => ({...ps, message: message}))
-  }
 
-  const sendMessage = () => {
-    if(state.message){
-      dataBase.collection("messages").add({
-        id: state.user.uid,
-        accountImg: state.user.photoURL,
-        message: state.message,
-        dateCreated: new Date()
-      })
-      
 
-      setState(ps => ({...ps, message: ""}))
-      console.log(state.user.photoURL)
 
-    }
-
-  }
 
 
   
-const loggedInPage = ( <div>
-  <button onClick={signOut}>SIGNOUT</button>
-  <div className="container">
-  <ul>
-    {messages()}
-  </ul>
+// const loggedInPage = ( <div>
+//   <button onClick={signOut}>SIGNOUT</button>
+//   <div className="container">
+//   <ul>
+//     {messages()}
+//   </ul>
 
-  <input type="text" onChange={inputChange} value={state.message}></input>
-  {state.message}
-  <button onClick={sendMessage}>send</button>
-  </div>  
-</div> )
+//   <input type="text" onChange={inputChange} value={state.message}></input>
+//   {state.message}
+//   <button onClick={sendMessage}>send</button>
+//   </div>  
+// </div> )
 
 
 const loggedOutPage = (<div>
@@ -99,7 +66,7 @@ const loggedOutPage = (<div>
   return (
     <div className="App">
       <h1>Hello there</h1>
-      {state.user ? loggedInPage : loggedOutPage}
+      {state.user ? <ChatRoom user={state.user} signOut={signOut} /> : loggedOutPage}
 
 
    
