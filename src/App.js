@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import firebase, { database } from "firebase"
 import { auth, googleLogin, signOut, dataBase } from "./JScomponents/firebase"
 import ChatRoom from './JScomponents/chatRoom';
@@ -58,14 +58,14 @@ function App() {
 // </div> )
 
 
-const loggedOutPage = (<div>
+const loggedOutPage = (<div className="loggedOutPage">
 <h1>SIGN IN TO CHAT</h1>
-  <button onClick={googleLogin}>GOOGLE LOGIN</button>
+  <button className="loginBtn" onClick={googleLogin}>GOOGLE LOGIN</button>
 </div>)
 
   return (
     <div className="App">
-      <h1>Hello there</h1>
+      <h1>Welcome to Google Chat</h1>
       {state.user ? <ChatRoom user={state.user} signOut={signOut} /> : loggedOutPage}
 
 

@@ -27,7 +27,7 @@ function ChatRoom(props) {
 
     let messages = () => {
 
-        console.log(state.messages)
+        // console.log(state.messages)
         if (state.user && state.messages){
           let sortedArr = state.messages.sort((a,b) => a.dateCreated - b.dateCreated)
           return sortedArr.map(a => a.id === state.user.uid ? (
@@ -62,15 +62,15 @@ function ChatRoom(props) {
           
     
           setState(ps => ({...ps, message: ""}))
-          console.log(state.user.photoURL)
+          // console.log(state.user.photoURL)
     
         }
     
       }
   
     return (
-        <div>
-            <button onClick={props.signOut}>SIGNOUT</button>
+        <div className="loggedInPage">
+            <button className="signOut" onClick={props.signOut}>SIGNOUT</button>
             <div className="container">
             <ul className="messageContainer">
                 {messages()}
@@ -78,7 +78,7 @@ function ChatRoom(props) {
 
             <div className="inputs">
 
-                <input type="text" className="textInput" onChange={inputChange} value={state.message}></input>
+                <textarea className="textInput" onChange={inputChange} value={state.message}></textarea>
                 <button className="sendBtn" onClick={sendMessage}>send</button>
 
             </div>
